@@ -7,3 +7,4 @@ __pycache__/
 node_modules/
 .github/
 django_todo/settings.py
+db.sqlite3
