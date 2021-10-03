@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 import dj_database_url
 
+development = os.environ.get('DEVELOPMENT', False)
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -26,9 +28,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-a7w6^r((+7ge6e0y*!j=5#xx2xvlyu_2t-fgc!k+d^i2)8t4sm'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = development
 
-ALLOWED_HOSTS = ['https://ka001-django-todo-app.herokuapp.com/']
+if development:
+    ALLOWED_HOSTS = ['localhost']
+else:
+    ALLOWED_HOSTS = ['https://ka001-django-todo-app.herokuapp.com/']
 
 
 # Application definition
@@ -77,16 +82,17 @@ WSGI_APPLICATION = 'django_todo.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': BASE_DIR / 'db.sqlite3',
-#    }
-#}
-
-DATABASES = {
-    'default': dj_database_url.parse('postgres://lajjdrfdvofjrn:45501c54969162be9da778d5aa73e07c5c8b5010c70e1533ba99e797b001821e@ec2-52-17-1-206.eu-west-1.compute.amazonaws.com:5432/d2stboerg8dea6')
-}
+if development:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+else:
+    DATABASES = {
+        'default': dj_database_url.parse('postgres://lajjdrfdvofjrn:45501c54969162be9da778d5aa73e07c5c8b5010c70e1533ba99e797b001821e@ec2-52-17-1-206.eu-west-1.compute.amazonaws.com:5432/d2stboerg8dea6')
+    }
 
 
 # Password validation
